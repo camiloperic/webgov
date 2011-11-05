@@ -8,6 +8,10 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
+import br.org.webgov.action.dao.Login;
+import br.org.webgov.model.Usuario;
+import br.org.webgov.model.UsuarioPapel;
+
 @Stateless
 @Name("authenticator")
 public class AuthenticatorBean implements Authenticator {
@@ -19,17 +23,18 @@ public class AuthenticatorBean implements Authenticator {
 	@In
 	Credentials credentials;
 
+	@In(create = true)
+	private Login login;
+
 	public boolean authenticate() {
 		log.info("authenticating {0}", credentials.getUsername());
-		//write your authentication logic here,
-		//return true if the authentication was
-		//successful, false otherwise
-		if ("admin".equals(credentials.getUsername())) {
-			identity.addRole("admin");
-			System.out.println("####################							The password is " + credentials.getPassword());
+		Usuario usuario = login.doLogin(credentials.getUsername(), credentials.getPassword());
+		if (usuario == null) return false;
+		else {
+			for (UsuarioPapel up : usuario.getUsuarioPapels())
+				identity.addRole(up.getPapel().getNome());
 			return true;
 		}
-		return false;
 	}
 
 }

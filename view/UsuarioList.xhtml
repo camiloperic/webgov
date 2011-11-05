@@ -101,6 +101,16 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{usuarioList}"/>
+                    <ui:param name="propertyLabel" value="Titulo eleitoral"/>
+                    <ui:param name="propertyPath" value="usuario.tituloEleitoral"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_usuario.tituloEleitoral}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{usuarioList}"/>
                     <ui:param name="propertyLabel" value="Username"/>
                     <ui:param name="propertyPath" value="usuario.username"/>
                 </ui:include>

@@ -10,18 +10,18 @@ import org.jboss.seam.annotations.Name;
 @Stateless
 public class TesteBean implements ITesteBean {
 
-	@In(create=true)
+	@In(create = true)
 	private TesteDAO testedao;
-	
+
 	@In
 	EntityManager entityManager;
-	
+
 	private String mensagem = "Teste que vai funcionar, é muito fácil!";
 
 	public void mudarMensagem() {
 		mensagem = testedao.getUsers();
 	}
-	
+
 	public String getMensagem() {
 		return mensagem;
 	}
@@ -29,5 +29,5 @@ public class TesteBean implements ITesteBean {
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
 	}
-	
+
 }

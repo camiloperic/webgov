@@ -33,6 +33,11 @@
             <h:outputText value="#{usuarioHome.instance.password}"/>
         </s:decorate>
 
+        <s:decorate id="tituloEleitoral" template="layout/display.xhtml">
+            <ui:define name="label">Titulo eleitoral</ui:define>
+            <h:outputText value="#{usuarioHome.instance.tituloEleitoral}"/>
+        </s:decorate>
+
         <s:decorate id="username" template="layout/display.xhtml">
             <ui:define name="label">Username</ui:define>
             <h:outputText value="#{usuarioHome.instance.username}"/>
@@ -54,6 +59,57 @@
 
     </div>
 
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario papels</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuarioPapelsChildren">
+
+        <h:outputText value="There are no usuarioPapels associated with this usuario."
+                   rendered="#{empty usuarioHome.usuarioPapels}"/>
+
+        <rich:dataTable value="#{usuarioHome.usuarioPapels}"
+                       var="_usuarioPapel"
+                  rendered="#{not empty usuarioHome.usuarioPapels}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuarioPapelsTable">
+            <rich:column sortBy="#{_usuarioPapel.id.idPapel}">
+                <f:facet name="header">Id papel</f:facet>
+                <h:outputText value="#{_usuarioPapel.id.idPapel}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuarioPapel.id.idUsuario}">
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuarioPapel.id.idUsuario}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuarioPapel"
+                     value="Select"
+                      view="/UsuarioPapel.xhtml">
+                    <f:param name="usuarioPapelIdPapel"
+                            value="#{_usuarioPapel.id.idPapel}"/>
+                    <f:param name="usuarioPapelIdUsuario"
+                            value="#{_usuarioPapel.id.idUsuario}"/>
+                    <f:param name="usuarioPapelFrom" value="Usuario"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuarioPapel"
+                view="/UsuarioPapelEdit.xhtml">
+            <f:param name="usuarioId"
+                    value="#{usuarioHome.instance.id}"/>
+            <f:param name="usuarioPapelFrom" value="Usuario"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
 </ui:define>
 
 </ui:composition>

@@ -8,8 +8,15 @@
     <rich:toolBarGroup>
         <s:link id="menuHomeId" view="/home.xhtml" value="eGov" propagation="none"/>
     </rich:toolBarGroup>
-    <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+    <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn}">
         <f:facet name="label">Browse data</f:facet>
+	<rich:menuItem>
+    	<s:link view="/UsuarioPapelList.xhtml"
+           	value="UsuarioPapel List"
+           	id="UsuarioPapelId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
 	<rich:menuItem>
     	<s:link view="/UsuarioList.xhtml"
            	value="Usuario List"
@@ -17,12 +24,29 @@
 			includePageParams="false"
      		propagation="none"/>
      </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/PapelList.xhtml"
+           	value="Papel List"
+           	id="PapelId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/HibernateSequencesList.xhtml"
+           	value="HibernateSequences List"
+           	id="HibernateSequencesId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
     </rich:dropDownMenu>
     <!-- @newMenuItem@ -->
+    <rich:toolBarGroup location="right" rendered="#{identity.hasRole('admin')}" style="background-color:#6699FF">
+        <h:outputText id="menuAdminId" value="Admin" />
+        <s:link id="menuTesteId" view="/teste.xhtml" value="Teste" propagation="none"/>
+    </rich:toolBarGroup>
     <rich:toolBarGroup location="right">
         <h:outputText id="menuWelcomeId" value="signed in as: #{credentials.username}" rendered="#{identity.loggedIn}"/>
         <s:link id="menuLoginId" view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" propagation="none"/>
         <s:link id="menuLogoutId" view="/home.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" propagation="none"/>
-        <s:link id="menuTeste" view="/teste.xhtml" value="Teste" rendered="#{identity.loggedIn}" propagation="none"/>
     </rich:toolBarGroup>
 </rich:toolBar>

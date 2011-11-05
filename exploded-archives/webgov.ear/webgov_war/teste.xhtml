@@ -13,7 +13,8 @@
 
 	<a4j:region id="teste">
 		<a4j:form>
-			<h:outputText value="#{testebean.mensagem}"/>
+			<h:outputText value="#{testebean.mensagem}" escape="false"/>
+			<br/>
 			<h:commandButton action="#{testebean.mudarMensagem()}" value="Mudar">
 				<a4j:support event="oncomplete" reRender="teste"/>
 			</h:commandButton>

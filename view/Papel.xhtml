@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Papel Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{papelHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="descricao" template="layout/display.xhtml">
+            <ui:define name="label">Descricao</ui:define>
+            <h:outputText value="#{papelHome.instance.descricao}"/>
+        </s:decorate>
+
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{papelHome.instance.nome}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PapelEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty papelFrom ? 'PapelList' : papelFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario papels</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuarioPapelsChildren">
+
+        <h:outputText value="There are no usuarioPapels associated with this papel."
+                   rendered="#{empty papelHome.usuarioPapels}"/>
+
+        <rich:dataTable value="#{papelHome.usuarioPapels}"
+                       var="_usuarioPapel"
+                  rendered="#{not empty papelHome.usuarioPapels}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuarioPapelsTable">
+            <rich:column sortBy="#{_usuarioPapel.id.idPapel}">
+                <f:facet name="header">Id papel</f:facet>
+                <h:outputText value="#{_usuarioPapel.id.idPapel}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuarioPapel.id.idUsuario}">
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuarioPapel.id.idUsuario}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuarioPapel"
+                     value="Select"
+                      view="/UsuarioPapel.xhtml">
+                    <f:param name="usuarioPapelIdPapel"
+                            value="#{_usuarioPapel.id.idPapel}"/>
+                    <f:param name="usuarioPapelIdUsuario"
+                            value="#{_usuarioPapel.id.idUsuario}"/>
+                    <f:param name="usuarioPapelFrom" value="Papel"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuarioPapel"
+                view="/UsuarioPapelEdit.xhtml">
+            <f:param name="papelId"
+                    value="#{papelHome.instance.id}"/>
+            <f:param name="usuarioPapelFrom" value="Papel"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

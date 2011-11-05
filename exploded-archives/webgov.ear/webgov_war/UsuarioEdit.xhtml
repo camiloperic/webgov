@@ -16,6 +16,25 @@
         <rich:panel>
             <f:facet name="header">#{usuarioHome.managed ? 'Edit' : 'Add'} Usuario</f:facet>
 
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{usuarioHome.managed}"
+                          value="#{usuarioHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="ativoField" template="layout/edit.xhtml">
+                <ui:define name="label">Ativo</ui:define>
+                <h:selectBooleanCheckbox id="ativo"
+                                      value="#{usuarioHome.instance.ativo}"/>
+            </s:decorate>
+
+
             <s:decorate id="nomeField" template="layout/edit.xhtml">
                 <ui:define name="label">Nome</ui:define>
                 <h:inputText id="nome"
@@ -38,6 +57,15 @@
             </s:decorate>
 
 
+            <s:decorate id="tituloEleitoralField" template="layout/edit.xhtml">
+                <ui:define name="label">Titulo eleitoral</ui:define>
+                <h:inputText id="tituloEleitoral"
+                          value="#{usuarioHome.instance.tituloEleitoral}">
+                    <a:support event="onblur" reRender="tituloEleitoralField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
             <s:decorate id="usernameField" template="layout/edit.xhtml">
                 <ui:define name="label">Username</ui:define>
                 <h:inputText id="username"
@@ -47,6 +75,7 @@
                     <a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
+
 
             <div style="clear:both">
                 <span class="required">*</span>
@@ -89,6 +118,45 @@
         </div>
     </h:form>
 
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Usuario papels">
+        <h:form styleClass="association" id="usuarioPapelsChildren">
+
+            <h:outputText value="There are no usuarioPapels associated with this usuario."
+                       rendered="#{empty usuarioHome.usuarioPapels}"/>
+
+            <rich:dataTable value="#{usuarioHome.usuarioPapels}"
+                           var="_usuarioPapel"
+                      rendered="#{not empty usuarioHome.usuarioPapels}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="usuarioPapelsTable">
+                <rich:column sortBy="#{_usuarioPapel.id.idPapel}">
+                    <f:facet name="header">Id papel</f:facet>
+                    <h:outputText value="#{_usuarioPapel.id.idPapel}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuarioPapel.id.idUsuario}">
+                    <f:facet name="header">Id usuario</f:facet>
+                    <h:outputText value="#{_usuarioPapel.id.idUsuario}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{usuarioHome.managed}" id="usuarioPapels">
+        <div class="actionButtons">
+            <s:button id="addusuarioPapel"
+                   value="Add usuarioPapel"
+                    view="/UsuarioPapelEdit.xhtml"
+             propagation="none">
+                 <f:param name="usuarioId"
+                         value="#{usuarioHome.instance.id}"/>
+                 <f:param name="usuarioPapelFrom" value="Usuario"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
 </ui:define>
 
 </ui:composition>

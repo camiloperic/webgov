@@ -4,9 +4,9 @@ import javax.ejb.Local;
 
 @Local
 public interface ITesteBean {
-	
+
 	public String getMensagem();
-	
+
 	public void mudarMensagem();
 
 }

@@ -1,0 +1,169 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="usuarioPapel" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{usuarioPapelHome.managed ? 'Edit' : 'Add'} Usuario papel</f:facet>
+
+
+            <s:decorate id="idPapelField" template="layout/edit.xhtml">
+                <ui:define name="label">Id papel</ui:define>
+                <h:inputText id="idPapel"
+                       required="true"
+                       disabled="#{usuarioPapelHome.managed}"
+                          value="#{usuarioPapelHome.instance.id.idPapel}">
+                    <a:support event="onblur" reRender="idPapelField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="idUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id usuario</ui:define>
+                <h:inputText id="idUsuario"
+                       required="true"
+                       disabled="#{usuarioPapelHome.managed}"
+                          value="#{usuarioPapelHome.instance.id.idUsuario}">
+                    <a:support event="onblur" reRender="idUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{usuarioPapelHome.persist}"
+                       disabled="#{!usuarioPapelHome.wired}"
+                       rendered="#{!usuarioPapelHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{usuarioPapelHome.update}"
+                       rendered="#{usuarioPapelHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{usuarioPapelHome.remove}"
+                      immediate="true"
+                       rendered="#{usuarioPapelHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/UsuarioPapel.xhtml"
+                rendered="#{usuarioPapelHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty usuarioPapelFrom ? 'UsuarioPapelList' : usuarioPapelFrom}.xhtml"
+                rendered="#{!usuarioPapelHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Papel">
+    <div class="association" id="papelParent">
+
+        <h:outputText value="There is no papel associated with this usuarioPapel."
+                   rendered="#{usuarioPapelHome.instance.papel == null}"/>
+
+        <rich:dataTable var="_papel"
+                   value="#{usuarioPapelHome.instance.papel}"
+                rendered="#{usuarioPapelHome.instance.papel != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="papelTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_papel.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descricao</f:facet>
+                <h:outputText value="#{_papel.descricao}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_papel.nome}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{usuarioPapelHome.instance.papel != null ? 'changeParent' : 'selectParent'}" value="#{usuarioPapelHome.instance.papel != null ? 'Change' : 'Select'} papel"
+                       view="/PapelList.xhtml">
+                <f:param name="from" value="UsuarioPapelEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this usuarioPapel."
+                   rendered="#{usuarioPapelHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{usuarioPapelHome.instance.usuario}"
+                rendered="#{usuarioPapelHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_usuario.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ativo</f:facet>
+                <h:outputText value="#{_usuario.ativo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_usuario.nome}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Password</f:facet>
+                <h:outputText value="#{_usuario.password}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo eleitoral</f:facet>
+                <h:outputText value="#{_usuario.tituloEleitoral}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Username</f:facet>
+                <h:outputText value="#{_usuario.username}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{usuarioPapelHome.instance.usuario != null ? 'changeParent' : 'selectParent'}" value="#{usuarioPapelHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="UsuarioPapelEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

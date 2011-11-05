@@ -1,6 +1,8 @@
 package br.org.webgov.action;
 
 import br.org.webgov.model.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
@@ -37,6 +39,11 @@ public class UsuarioHome extends EntityHome<Usuario> {
 
 	public Usuario getDefinedInstance() {
 		return isIdDefined() ? getInstance() : null;
+	}
+
+	public List<UsuarioPapel> getUsuarioPapels() {
+		return getInstance() == null ? null : new ArrayList<UsuarioPapel>(
+				getInstance().getUsuarioPapels());
 	}
 
 }
