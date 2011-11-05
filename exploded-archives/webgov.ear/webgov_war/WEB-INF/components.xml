@@ -29,7 +29,7 @@
    <web:hot-deploy-filter url-pattern="*.seam"/>
 
    <persistence:managed-persistence-context name="entityManager" auto-create="true"
-                      persistence-unit-jndi-name="@puJndiName@"/>
+                       persistence-unit-jndi-name="java:/webgovEntityManagerFactory"/>
 
    <drools:rule-base name="securityRules">
       <drools:rule-files>

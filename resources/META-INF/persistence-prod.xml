@@ -8,10 +8,6 @@
    <persistence-unit name="webgov">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>webgovDatasource</jta-data-source>
-      <!-- The <jar-file> element is necessary if you put the persistence.xml in the WAR and the classes in the JAR -->
-      <!--
-      <jar-file>../../vehicles.jar</jar-file>
-      -->
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
          <property name="hibernate.hbm2ddl.auto" value="validate"/>
