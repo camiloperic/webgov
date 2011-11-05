@@ -3,6 +3,8 @@ package br.org.webgov.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.validator.Length;
@@ -18,7 +20,7 @@ public class Usuario implements java.io.Serializable {
 	private String nome;
 	private String username;
 	private String password;
-	private Boolean ativo;
+	private Boolean ativo = false;
 
 	public Usuario() {
 	}
@@ -36,7 +38,8 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
 	public int getId() {
 		return this.id;
 	}

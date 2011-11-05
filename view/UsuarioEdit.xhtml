@@ -16,25 +16,6 @@
         <rich:panel>
             <f:facet name="header">#{usuarioHome.managed ? 'Edit' : 'Add'} Usuario</f:facet>
 
-
-            <s:decorate id="idField" template="layout/edit.xhtml">
-                <ui:define name="label">Id</ui:define>
-                <h:inputText id="id"
-                       required="true"
-                       disabled="#{usuarioHome.managed}"
-                          value="#{usuarioHome.instance.id}">
-                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-
-            <s:decorate id="ativoField" template="layout/edit.xhtml">
-                <ui:define name="label">Ativo</ui:define>
-                <h:selectBooleanCheckbox id="ativo"
-                                      value="#{usuarioHome.instance.ativo}"/>
-            </s:decorate>
-
-
             <s:decorate id="nomeField" template="layout/edit.xhtml">
                 <ui:define name="label">Nome</ui:define>
                 <h:inputText id="nome"
